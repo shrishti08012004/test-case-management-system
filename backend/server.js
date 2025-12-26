@@ -9,32 +9,31 @@ const authRoutes = require("./src/routes/auth.routes");
 
 const app = express();
 
-// ✅ Middleware FIRST
+// middleware
 app.use(cors());
 app.use(express.json());
 
-// ✅ Root route (VERY IMPORTANT for Railway)
+// health check
 app.get("/", (req, res) => {
   res.send("Test Case Management API is running 🚀");
 });
 
-// ✅ Routes
+// routes
 app.use("/api/auth", authRoutes);
 
-// ✅ Server start
+// start server
 const startServer = async () => {
   try {
     await connectDB();
     await sequelize.sync();
-    console.log("✅ Database synced");
 
     const PORT = process.env.PORT || 5000;
 
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error("❌ Error starting server:", error);
+    console.error("Server failed:", error);
   }
 };
 
